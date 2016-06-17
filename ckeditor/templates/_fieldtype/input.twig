@@ -1,0 +1,4 @@
+<textarea id="{{ id }}" name="{{ name }}">{{ value }}</textarea>
+
+{% includejsresource 'ckeditor/ckeditor/ckeditor.js' %}
+{% includejs %}CKEDITOR.replace('fields-{{ id|e('js') }}'){% endincludejs %}
