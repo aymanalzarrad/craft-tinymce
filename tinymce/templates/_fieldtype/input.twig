@@ -3,7 +3,10 @@
 {% includejsresource 'tinymce/tinymce.min.js' %}
 {% includejsfile configUrl %}
 {% includejs %}
-	tinymce.init(jQuery.extend(tinymce.config || {}, {
+	tinymce.init(jQuery.extend({
+		plugins: 'autoresize',
+		autoresize_bottom_margin: 0
+	}, tinymce.config, {
 		selector: '#fields-{{ id|e('js') }}',
 		language: '{{ language|e('js') }}',
 		directionality: '{{ direction|e('js') }}'
