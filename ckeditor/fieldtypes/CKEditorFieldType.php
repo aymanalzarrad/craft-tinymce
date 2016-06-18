@@ -433,9 +433,12 @@ class CKEditorFieldType extends BaseFieldType
 	{
 		if($this->getSettings()->configFile)
 		{
-			$configPath = craft()->path->getConfigPath() . 'ckeditor/' . $this->getSettings()->configFile;
-			$json = IOHelper::getExtension($configPath) == 'js' ?
-				'{"customConfig": "' . $configPath . '"}':
+			$configFile = $this->getSettings()->configFile;
+			$configPath = craft()->path->getConfigPath() . 'ckeditor/' . $configFile;
+			$configUrl = UrlHelper::getActionUrl('CKEditor/config/' . $configFile);
+
+			$json = IOHelper::getExtension($configFile) == 'js' ?
+				'{"customConfig": "' . $configUrl . '"}':
 				IOHelper::getFileContents($configPath);
 		}
 
