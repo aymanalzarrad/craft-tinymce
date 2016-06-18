@@ -1,0 +1,9 @@
+<textarea id="{{ id }}" name="{{ name }}">{{ value|e('html') }}</textarea>
+
+{% includejsfile 'https://cdn.tinymce.com/4/tinymce.min.js' %}
+{% includejsfile tinymceConfig %}
+{% includejs %}
+	tinymce.config = tinymce.config || {}
+	tinymce.config.selector = '#fields-{{ id|e('js') }}'
+	tinymce.init(tinymce.config)
+{% endincludejs %}
