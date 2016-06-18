@@ -1,9 +1,11 @@
 <textarea id="{{ id }}" name="{{ name }}">{{ value|e('html') }}</textarea>
 
-{% includejsfile 'https://cdn.tinymce.com/4/tinymce.min.js' %}
-{% includejsfile tinymceConfig %}
+{% includejsresource 'tinymce/tinymce.min.js' %}
+{% includejsfile configUrl %}
 {% includejs %}
-	tinymce.config = tinymce.config || {}
-	tinymce.config.selector = '#fields-{{ id|e('js') }}'
-	tinymce.init(tinymce.config)
+	tinymce.init(jQuery.extend(tinymce.config || {}, {
+		selector: '#fields-{{ id|e('js') }}',
+		language: '{{ language|e('js') }}',
+		directionality: '{{ direction|e('js') }}'
+	}))
 {% endincludejs %}

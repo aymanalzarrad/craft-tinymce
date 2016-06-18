@@ -8,11 +8,6 @@ namespace Craft;
  */
 class TinyMCEFieldType extends BaseFieldType
 {
-	// Private properties
-
-	private static $_tinymceLang = 'en';
-
-
 	// Public methods
 
 	/**
@@ -197,8 +192,9 @@ class TinyMCEFieldType extends BaseFieldType
 			'assetSources' => $this->_getAssetSources(),
 			'transforms' => $this->_getTransforms(),
 			'elementLocale' => $localeId,
-			'tinymceConfig' => $configUrl,
-			'tinymceLang' => static::$_tinymceLang,
+			'configUrl' => $configUrl,
+			'language' => $this->_getLanguage(),
+			'direction' => $this->_getDirection(),
 		];
 
 		if(isset($this->model) && $this->model->translatable)
@@ -421,5 +417,15 @@ class TinyMCEFieldType extends BaseFieldType
 		}
 
 		return $transformList;
+	}
+
+	private function _getLanguage()
+	{
+		return 'en';
+	}
+
+	private function _getDirection()
+	{
+		return 'ltr';
 	}
 }
