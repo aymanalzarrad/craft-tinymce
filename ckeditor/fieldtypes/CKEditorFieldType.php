@@ -188,11 +188,6 @@ class CKEditorFieldType extends BaseFieldType
 		$configJson = $this->_getConfigJson();
 		$config = JsonHelper::decode(JsonHelper::removeComments($configJson));
 
-		if(!isset($config['customConfig']))
-		{
-			$config['customConfig'] = UrlHelper::getResourceUrl('ckeditor/config.js');
-		}
-
 		$id = craft()->templates->formatInputId($name);
 		$localeId = (isset($this->element) ? $this->element->locale : craft()->language);
 
