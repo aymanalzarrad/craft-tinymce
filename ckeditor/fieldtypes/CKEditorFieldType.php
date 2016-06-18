@@ -40,7 +40,7 @@ class CKEditorFieldType extends BaseFieldType
 
 		if(IOHelper::folderExists($configPath))
 		{
-			$configFiles = IOHelper::getFolderContents($configPath, false, '\.json$');
+			$configFiles = IOHelper::getFolderContents($configPath, false, '\.js(on)?$');
 
 			if(is_array($configFiles))
 			{
@@ -185,7 +185,13 @@ class CKEditorFieldType extends BaseFieldType
 
 	public function getInputHtml($name, $value)
 	{
-		$configJs = $this->_getConfigJson();
+		$configJson = $this->_getConfigJson();
+		$config = JsonHelper::decode(JsonHelper::removeComments($configJson));
+
+		if(!isset($config['customConfig']))
+		{
+			$config['customConfig'] = UrlHelper::getResourceUrl('ckeditor/config.js');
+		}
 
 		$id = craft()->templates->formatInputId($name);
 		$localeId = (isset($this->element) ? $this->element->locale : craft()->language);
@@ -197,7 +203,7 @@ class CKEditorFieldType extends BaseFieldType
 			'assetSources' => $this->_getAssetSources(),
 			'transforms' => $this->_getTransforms(),
 			'elementLocale' => $localeId,
-			'ckedtorConfig' => JsonHelper::decode(JsonHelper::removeComments($configJs)),
+			'ckedtorConfig' => $config,
 			'ckeditorLang' => static::$_ckeditorLang,
 		];
 
@@ -433,7 +439,9 @@ class CKEditorFieldType extends BaseFieldType
 		if($this->getSettings()->configFile)
 		{
 			$configPath = craft()->path->getConfigPath() . 'ckeditor/' . $this->getSettings()->configFile;
-			$json = IOHelper::getFileContents($configPath);
+			$json = IOHelper::getExtension($configPath) == 'js' ?
+				'{"customConfig": "' . $configPath . '"}':
+				IOHelper::getFileContents($configPath);
 		}
 
 		return empty($json) ? '{}' : $json;
