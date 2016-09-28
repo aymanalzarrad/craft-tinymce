@@ -1,9 +1,11 @@
 <textarea id="{{ id }}" name="{{ name }}">{{ value|e('html') }}</textarea>
 
 {% includejsresource 'tinymce/tinymce.min.js' %}
+{% includejsresource 'tinymce/themes/craft/theme.js' %}
 {% includejsfile configUrl %}
 {% includejs %}
 	tinymce.init(jQuery.extend({
+		theme: 'craft',
 		plugins: 'autoresize',
 		autoresize_bottom_margin: 0
 	}, tinymce.config, {
